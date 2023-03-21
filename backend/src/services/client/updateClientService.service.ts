@@ -10,11 +10,12 @@ export const updateClientService = async (
   
   if (!clientFound) throw new AppError(404, "Client not found")
 
-  await clientRepository.save({...clientFound, ...client })
 
-  const updatedClient= await clientRepository.findOneBy({id});
+  const updateClient = clientRepository.create({...clientFound, ...client })
+  await clientRepository.save(updateClient)
+
   
-  return await responseClientSerializer.validate(updatedClient, {
+  return await responseClientSerializer.validate(updateClient, {
     stripUnknown: true,
   });
 }

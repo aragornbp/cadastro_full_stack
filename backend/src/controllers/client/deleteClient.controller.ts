@@ -3,6 +3,6 @@ import { deleteClientService } from "../../services/client/deleteClientService.s
 
 export const deleteClientController = async (req: Request, res: Response) => {
   const id: string = req.params.id
-  await deleteClientService(id)
-  return res.status(204).json()
+  const client = await deleteClientService(id)
+  return res.status(204).json(client)
 }

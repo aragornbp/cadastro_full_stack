@@ -19,7 +19,7 @@ export class Contact{
   created_at: Date
 
   @ManyToOne(()=> Client, {onDelete: "CASCADE"})
-  client: Client
+  client: string
 
   
 }
