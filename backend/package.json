@@ -12,11 +12,13 @@
     "migrate": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts "
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.15.3",
     "@types/typescript": "^2.0.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.6",
