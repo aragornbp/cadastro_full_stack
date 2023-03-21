@@ -1,10 +1,11 @@
 import { AppError } from "../../errors/errors";
-import { iClientRequest } from "../../interfaces/client";
+import { iClient} from "../../interfaces/client";
 import { clientRepository } from "../../repositories/clientRepository";
+import { responseClientSerializer } from "../../serializers/client.serializer";
 
 export const updateClientService = async (
-  client: iClientRequest, id: any
-): Promise<iClientRequest> => {
+  client: iClient, id: any
+): Promise<iClient> => {
   const clientFound = await clientRepository.findOneBy({id});
   
   if (!clientFound) throw new AppError(404, "Client not found")
@@ -13,7 +14,7 @@ export const updateClientService = async (
 
   const updatedClient= await clientRepository.findOneBy({id});
   
-  return await clientResponseSerializer.validate(updatedClient, {
+  return await responseClientSerializer.validate(updatedClient, {
     stripUnknown: true,
   });
 }

@@ -23,7 +23,7 @@ export class Client{
   @Column({length: 127})
   password: string
 
-  @OneToMany(()=> Contact, (contact)=> contact.id)
+  @OneToMany(()=> Contact, (contact)=> contact.client)
   contacts : Contact[]
 
   @BeforeInsert()
