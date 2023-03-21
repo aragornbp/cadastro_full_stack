@@ -4,8 +4,13 @@ import { clientRepository } from "../../repositories/clientRepository";
 import { responseClientSerializer } from "../../serializers/client.serializer";
 
 export const ReadClientService = async (id: any): Promise<iClient> => {
-  const client = await clientRepository.findOneBy({id});
+  const client = await clientRepository.findOne({
+    relations: {contacts: true},
+    where: {id: id}
+  });
+  console.log(client)
   if (!client) throw new AppError(404, "Client not found")
+
   const returnClient = await responseClientSerializer.validate(client, {
     stripUnknown: true,
   })

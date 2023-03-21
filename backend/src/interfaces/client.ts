@@ -32,7 +32,6 @@ export interface iClient {
   email?: string;
   phone?: string;
   created_at?: Date;
-  contacts?: iContactResponse[];
 }
 
 export interface iClientUpdate {
