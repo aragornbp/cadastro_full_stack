@@ -20,7 +20,8 @@
     "pg": "^8.10.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.6",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

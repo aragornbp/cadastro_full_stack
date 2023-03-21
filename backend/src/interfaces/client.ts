@@ -1,9 +1,22 @@
-export interface iContact{
+export interface iContactResponse{
+  id?: string;
+  email?: string;
+  name?: string;
+  phone?: string;
+  created_at?: Date;
+  client_id?: string;
+}
+
+export interface iContactRequest{
   email: string;
   name: string;
-  phone: string
-  created_at: Date
-  client: iClient
+  phone: string;
+  client_id: string;
+}
+export interface iContactRUpdate{
+  email?: string;
+  name?: string;
+  phone?: string;
 }
 
 export interface iClientRequest {
@@ -11,14 +24,22 @@ export interface iClientRequest {
   email: string;
   password: string;
   phone: string;
-  created_at: Date;
 }
 
 export interface iClient {
-  name: string;
-  email: string;
-  password: string;
-  phone: string;
-  created_at: Date;
-  contacts? : iContact[]
+  id?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  created_at?: Date;
+  contacts?: iContactResponse[];
 }
+
+export interface iClientUpdate {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+}
+
+

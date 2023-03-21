@@ -1,6 +1,7 @@
 import { AppError } from "../../errors/errors";
 import { iClient, iClientRequest } from "../../interfaces/client";
 import { clientRepository } from "../../repositories/clientRepository";
+import { responseClientSerializer } from "../../serializers/client.serializer";
 
 export const createClientService = async (
   data: iClientRequest
@@ -14,7 +15,7 @@ export const createClientService = async (
 
   await clientRepository.save(newClient)
 
-  const returnNewClient = await clientResponseSerializer.validate(newClient, {
+  const returnNewClient = await responseClientSerializer.validate(newClient, {
     stripUnknown: true,
   })
 
