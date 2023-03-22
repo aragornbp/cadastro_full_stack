@@ -4,17 +4,23 @@ export interface iContactResponse{
   name?: string;
   phone?: string;
   created_at?: Date;
-  client_id?: string;
+  client?: string;
 }
 
 export interface iContactRequest{
   email: string;
   name: string;
   phone: string;
-  client_id: string;
+  client: string;
 }
 
-export interface iContactRUpdate{
+export interface iContactUpdate{
+  email?: string;
+  name?: string;
+  phone?: string;
+}
+
+export interface iContactUpdate{
   email?: string;
   name?: string;
   phone?: string;
