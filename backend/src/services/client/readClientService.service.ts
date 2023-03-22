@@ -8,7 +8,6 @@ export const ReadClientService = async (id: any): Promise<iClient> => {
     relations: {contacts: true},
     where: {id: id}
   });
-  console.log(client)
   if (!client) throw new AppError(404, "Client not found")
 
   const returnClient = await responseClientSerializer.validate(client, {

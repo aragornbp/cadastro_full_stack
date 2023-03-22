@@ -9,6 +9,6 @@ import { contactSerializerRequest } from "../serializers/contact.serializer";
 export const contactRoutes = Router()
 
 contactRoutes.post("", validateDataMiddleware(contactSerializerRequest), validateAuthTokenMiddleware, createContactController)
-contactRoutes.patch("/", validateAuthTokenMiddleware, UpdateContactController)
-contactRoutes.delete("/", validateAuthTokenMiddleware, deleteContactController)
+contactRoutes.patch("/:id", validateAuthTokenMiddleware, UpdateContactController)
+contactRoutes.delete("/:id", validateAuthTokenMiddleware, deleteContactController)
 

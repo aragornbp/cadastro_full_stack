@@ -4,6 +4,6 @@ import { deleteContactService } from "../../services/contact/deleteContactServic
 
 export const deleteContactController = async(req: Request, res: Response) => {
   const contactId: string = req.params.id
-  const data = await deleteContactService(contactId)
-  return res.status(200).json(data)
+  await deleteContactService(contactId)
+  return res.status(204).json()
 }
