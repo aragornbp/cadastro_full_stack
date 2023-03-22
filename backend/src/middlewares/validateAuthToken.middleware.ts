@@ -17,8 +17,9 @@ export const validateAuthTokenMiddleware = async (
     authToken!,
     process.env.SECRET_KEY!,
     (error, decoded: any) => {
-      if (error)
+      if (error){
         res.status(401).json({ message: "Missing authorization headers" });
+      }
 
       req.client = {
         id: decoded.sub,

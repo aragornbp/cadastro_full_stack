@@ -13,11 +13,11 @@ export const responseContactSerializer: yup.Schema<iContactResponse> = yup
     client: yup.string()
   });
 
-export const ContactSerializerRequest: yup.Schema<iContactRequest> = yup
+export const contactSerializerRequest: yup.Schema<iContactRequest> = yup
 .object()
 .shape({
   name: yup.string().required(),
   email: yup.string().email().required(),
   phone: yup.string().required(),
-  client_id: yup.string().required(),
+  client: yup.string().required(),
 });
