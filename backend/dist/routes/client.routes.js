@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.clientRoutes = void 0;
+const express_1 = require("express");
+const createClient_controller_1 = require("../controllers/client/createClient.controller");
+const deleteClient_controller_1 = require("../controllers/client/deleteClient.controller");
+const listAllClients_controller_1 = require("../controllers/client/listAllClients.controller");
+const readClient_controller_1 = require("../controllers/client/readClient.controller");
+const updateClient_controller_1 = require("../controllers/client/updateClient.controller");
+const validateAuthToken_middleware_1 = require("../middlewares/validateAuthToken.middleware");
+const validateDataMiddleware_middleware_1 = require("../middlewares/validateDataMiddleware.middleware");
+const client_serializer_1 = require("../serializers/client.serializer");
+exports.clientRoutes = (0, express_1.Router)();
+exports.clientRoutes.post("", (0, validateDataMiddleware_middleware_1.validateDataMiddleware)(client_serializer_1.createClientSerializer), createClient_controller_1.createClientController);
+exports.clientRoutes.get("/all", validateAuthToken_middleware_1.validateAuthTokenMiddleware, listAllClients_controller_1.listAllClientsController);
+exports.clientRoutes.get("/:id", validateAuthToken_middleware_1.validateAuthTokenMiddleware, readClient_controller_1.readClientController);
+exports.clientRoutes.patch("/:id", (0, validateDataMiddleware_middleware_1.validateDataMiddleware)(client_serializer_1.updateClientSerializer), validateAuthToken_middleware_1.validateAuthTokenMiddleware, updateClient_controller_1.updateClientController);
+exports.clientRoutes.delete("/:id", validateAuthToken_middleware_1.validateAuthTokenMiddleware, deleteClient_controller_1.deleteClientController);
