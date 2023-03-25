@@ -16,6 +16,7 @@ const ModalAddContact = ({clientID, token}:any) => {
   const [inputPhone, setInputPhone] = useState("")
   const [inputClient, setInputClient] = useState("clientID")
   
+  const inputError = inputEmail == ""
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Must be a valide e-mail.').required(),
@@ -30,23 +31,28 @@ const ModalAddContact = ({clientID, token}:any) => {
     formState: {errors}
   } = useForm<iContactRequest>({resolver: yupResolver(formSchema)})
 
+
   const onFormSubmit = (FormData: iContactRequest) => {
+    console.log('oi estou no form submit')
+    const newContact = {...FormData, client: clientID}
+    console.log(newContact)
     addContact(FormData)
   }
 
+
   const addContact = async (contactData: iContactRequest) => {
     try{
+      console.log('oi estou no try')
       api.defaults.headers.common.authorization = `Bearer ${token}`
       await api.post("api/client/contact", contactData)
-      setTimeout(()=> {
-        onClose()
-      }, 1000)
     }
     catch(error){
+      console.log('oi estou no eerr')
       const requestError = error as AxiosError<iApiError>;
       console.error(requestError.response?.data.message);
     }
   }
+
 
   return (
     <>
@@ -58,7 +64,7 @@ const ModalAddContact = ({clientID, token}:any) => {
         <ModalContent>
           <ModalHeader>Criar novo Contato.</ModalHeader>
           <ModalBody>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={inputError}>
               <FormLabel>E-mail</FormLabel>
               <Input required type='email' {...register("email")} onChange={(e) => setInputEmail(e.target.value)}/>
               {!inputEmail ? (
@@ -73,7 +79,7 @@ const ModalAddContact = ({clientID, token}:any) => {
               ) 
               }
             </FormControl>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={inputError}>
               <FormLabel>Name</FormLabel>
               <Input required type={"text"} {...register("name")} onChange={(e)=> setInputName(e.target.value)}/>
               {!inputName ? (
@@ -88,7 +94,7 @@ const ModalAddContact = ({clientID, token}:any) => {
               ) 
               }
             </FormControl>
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={inputError}>
               <FormLabel>Phone</FormLabel>
               <Input required type={"text"} {...register("phone")} onChange={(e)=> setInputPhone(e.target.value)}/>
               {!inputPhone ? (

@@ -12,7 +12,6 @@ export interface iContactRequest{
   email: string,
   name: string,
   phone: string,
-  client: string,
 }
 
 export interface iClient {
