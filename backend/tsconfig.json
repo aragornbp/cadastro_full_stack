@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "typeRoots": ["src/@types", "node_modules/@types"],
-    "target": "es2016",
+    "target": "es5",
+    "lib": ["es5", "es6"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "module": "commonjs",                                /* Specify what module code is generated. */
