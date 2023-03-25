@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import {Link, InputRightElement, ModalFooter ,FormErrorMessage ,FormHelperText, ModalBody, FormControl, FormLabel, Input, InputGroup, Button, useDisclosure, Modal, ModalContent, ModalHeader} from '@chakra-ui/react'
+import {Link, InputRightElement, ModalFooter ,FormErrorMessage ,FormHelperText, ModalBody, FormControl, FormLabel, Input, InputGroup, Button, useDisclosure, Modal, ModalContent, ModalHeader, useToast, Box, } from '@chakra-ui/react'
 import * as yup from 'yup'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import { iClientRequest } from '@/types'
 import { ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
+import api from '@/services/api'
 
 const ModalFormRegister = () => {
   const {isOpen, onOpen, onClose} = useDisclosure()
+  const toast = useToast()
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Must be a valide e-mail.').required(),
@@ -31,9 +33,45 @@ const ModalFormRegister = () => {
     formState: {errors}
   } = useForm<iClientRequest>({resolver: yupResolver(formSchema)})
   
-  const onFormSubmit = (FormData: iClientRequest) =>{
-    console.log(FormData)
+  const onFormSubmit = async (FormData: iClientRequest) =>{
+    registerUser(FormData)
   }
+
+  const registerUser = async (userData: iClientRequest) => {
+    await api.post("api/client", userData)
+    .then((response) => {
+      console.log(response)
+      toast({
+        title: 'sucess',
+        variant: 'solid',
+        position: "top-right",
+        isClosable: true,
+        render: () => (
+          <Box color='gray.50' p={3} bg='green.600' fontWeight={'bold'} borderRadius={'md'}>
+            Cadastro realizado com sucesso.
+          </Box>
+        ),
+      })
+      setTimeout(()=> {
+        onClose()
+      }, 1000)
+    })
+    .catch((error)=> {
+      console.log(error)
+      toast({
+        title: 'error',
+        variant: 'solid',
+        position: "top-right",
+        isClosable: true,
+        render: () => (
+          <Box color='gray.50' p={3} bg='red.600' fontWeight={'bold'} borderRadius={'md'}>
+            Erro ao cadastrar, verifique seus dados.
+          </Box>
+        ),
+      })
+    });
+  }
+
   return (
     <>
       <Button onClick={onOpen}>Register</Button>

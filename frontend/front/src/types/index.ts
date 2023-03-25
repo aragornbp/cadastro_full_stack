@@ -8,6 +8,13 @@ export interface iContact{
   created_at: Date,
 }
 
+export interface iContactRequest{
+  email: string,
+  name: string,
+  phone: string,
+  client: string,
+}
+
 export interface iClient {
   id: string,
   name: string,
@@ -29,3 +36,8 @@ export interface iLogin {
   password: string,
 }
 
+export interface iToken {
+  token: string,
+  client_id: string,
+  data: iClient
+}

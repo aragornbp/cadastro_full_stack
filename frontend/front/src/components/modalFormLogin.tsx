@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Link, InputRightElement, ModalFooter ,FormErrorMessage ,FormHelperText, ModalBody, FormControl, FormLabel, Input, InputGroup, Button, useDisclosure, Modal, ModalContent, ModalHeader} from '@chakra-ui/react'
 import * as yup from 'yup'
 import {useForm} from 'react-hook-form'
 import {yupResolver} from '@hookform/resolvers/yup'
 import { iLogin } from '@/types'
 import { ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
+import { AuthContext } from '@/contexts/authContext'
+
 
 const ModalFormLogin = () => {
   const {isOpen, onOpen, onClose} = useDisclosure()
+  const {login} = useContext(AuthContext)
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Must be a valide e-mail.').required(),
@@ -27,7 +30,7 @@ const ModalFormLogin = () => {
   } = useForm<iLogin>({resolver: yupResolver(formSchema)})
   
   const onFormSubmit = (FormData: iLogin) =>{
-    console.log(FormData)
+    login(FormData)
   }
   return (
     <>

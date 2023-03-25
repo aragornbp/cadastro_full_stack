@@ -1,23 +1,52 @@
 import api from "@/services/api"
-import { iClient } from "@/types"
+import { iClient, iContact, iToken } from "@/types"
 import { GetServerSideProps, NextPage } from "next"
 import { useRouter } from "next/router"
 import {Center, List, ListItem, Link} from '@chakra-ui/react'
+import nookies from 'nookies'
+import Header from "@/components/header"
+import { useEffect, useState } from "react"
+import { AxiosError } from "axios"
+import ModalAddContact from "@/components/modalAddContact"
 
 
-interface Props {
-  client: iClient
+export interface iApiError {
+  status: string;
+  message?: string;
 }
 
-const Dashboard: NextPage<Props> = ({client}) => {
+const Dashboard = ({token, client_id}: iToken) => {
   const router = useRouter()
+  const [user, setUser] = useState<iClient | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [contacts, setContacts] = useState([] as iContact[]);
+
+
+  useEffect(()=> {
+    async function loadUser() {
+      try {
+        api.defaults.headers.common.authorization = `Bearer ${token}`
+        const {data} = await api.get(`api/client/${client_id}`)
+        setUser(data)
+        setContacts(data.contacts)
+      }
+      catch(error){
+        const requestError = error as AxiosError<iApiError>;
+        console.error(requestError.response?.data.message);
+      }
+      setLoading(false);
+      }
+      loadUser()
+  }, [])
+
   return (
     <>
-      <h1>Dashboard</h1>
+      <Header name={user?.name} isLogged={true}/>
+      <ModalAddContact clientId={client_id} token={token}/>
       <Center p={10}>
         <List spacing={3}>
           {
-            client.contacts.map((contact, index) => (
+            contacts.map((contact, index) => (
               <ListItem key={contact.id}>
                   {contact.name}
               </ListItem>
@@ -29,13 +58,21 @@ const Dashboard: NextPage<Props> = ({client}) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async () =>{
-  // id vem do cookies após login
-  const id = "229ac975-b67f-4933-a415-7e7a9f8ba5dd"
-  const response = await api.get(`/api/client/${id}`)
-  const client: iClient = response.data
-
-  return {props: {client}}
+export const getServerSideProps: GetServerSideProps = async (ctx) =>{
+  const cookies = nookies.get(ctx)
+  
+  if(!cookies["kenzie.token"]){
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false
+      }
+    }
+  }
+  
+  return {
+    props: {token: cookies["kenzie.token"], client_id: cookies["kenzie.client_id"]}
+  }
 }
 
 export default Dashboard
