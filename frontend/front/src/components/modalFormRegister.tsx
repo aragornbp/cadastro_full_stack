@@ -40,7 +40,6 @@ const ModalFormRegister = () => {
   const registerUser = async (userData: iClientRequest) => {
     await api.post("api/client", userData)
     .then((response) => {
-      console.log(response)
       toast({
         title: 'sucess',
         variant: 'solid',

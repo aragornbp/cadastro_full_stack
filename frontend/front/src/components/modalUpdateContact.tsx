@@ -7,23 +7,20 @@ import { iClientRequest, iContactRequest } from '@/types'
 import { AddIcon, ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 import api from '@/services/api'
 
-const ModalAddContact = ({clientId, getData}:any) => {
+const ModalUpdateContact = ({getData, contact}:any) => {
   const {isOpen, onOpen, onClose} = useDisclosure()
   const toast = useToast()
 
   const formSchema = yup.object().shape({
-    email: yup.string().email('Must be a valide e-mail.').required(),
-    name: yup.string().required(),
-    phone: yup.string().required(),
+    email: yup.string().email('Must be a valide e-mail.'),
+    name: yup.string(),
+    phone: yup.string()
   })
 
   const [inputEmail, setInputEmail] = useState("")
   const [inputName, setInputName] = useState("")
   const [inputPhone, setInputPhone] = useState("")
   
-
-  const inputError = inputEmail == ""
-
 
   const {
     register,
@@ -32,12 +29,12 @@ const ModalAddContact = ({clientId, getData}:any) => {
   } = useForm<iContactRequest>({resolver: yupResolver(formSchema)})
   
   const onFormSubmit = async (FormData: iContactRequest) =>{
-    const newContact = {...FormData, client: clientId}
-    registerContact(newContact)
+    const newContact = {...contact, ...FormData}
+    updateContact(newContact, contact.id)
   }
 
-  const registerContact = async (userData: iContactRequest) => {
-    await api.post("api/client/contact", userData)
+  const updateContact = async (userData: iContactRequest, contactId: string) => {
+    await api.post( `api/client/contact/${contact.id}` , userData)
     .then((response) => {
       toast({
         title: 'sucess',
@@ -46,7 +43,7 @@ const ModalAddContact = ({clientId, getData}:any) => {
         isClosable: true,
         render: () => (
           <Box color='gray.50' p={3} bg='green.600' fontWeight={'bold'} borderRadius={'md'}>
-            Contato cadastrado com sucesso.
+            Contato atualizado com sucesso.
           </Box>
         ),
       })
@@ -63,7 +60,7 @@ const ModalAddContact = ({clientId, getData}:any) => {
         isClosable: true,
         render: () => (
           <Box color='gray.50' p={3} bg='red.600' fontWeight={'bold'} borderRadius={'md'}>
-            Erro ao cadastrar novo contato.
+            Erro ao atualizar o contato.
           </Box>
         ),
       })
@@ -73,18 +70,15 @@ const ModalAddContact = ({clientId, getData}:any) => {
 
   return (
     <>
-      <Flex border={'1px'} borderRadius={'2xl'} justifyContent={'center'} gap={'2'} alignItems={'center'} width={'50%'} margin={'auto'} marginTop={"15"} cursor={'pointer'}>
-        <Text fontSize={'2xl'}>Adicionar Contato</Text>
-        <Button onClick={onOpen}><AddIcon/></Button>
-      </Flex>
+      <Button onClick={onOpen}>Update</Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
-          <ModalHeader>Adicionar contato</ModalHeader>
+          <ModalHeader>ATualizar contato</ModalHeader>
           <ModalBody>
-            <FormControl isRequired isInvalid={inputError}>
+            <FormControl isRequired>
               <FormLabel>E-mail</FormLabel>
-              <Input required type='email' {...register("email")} onChange={(e)=> setInputEmail(e.target.value)}/>
-              {inputError ? (
+              <Input placeholder={contact.email} required type='email' {...register("email")} onChange={(e)=> setInputEmail(e.target.value)}/>
+              {inputEmail ? (
                 <FormHelperText color={'red.300'}>
                   Digite seu e-mail
                 </FormHelperText>
@@ -96,9 +90,9 @@ const ModalAddContact = ({clientId, getData}:any) => {
               ) 
               }
             </FormControl>
-            <FormControl isRequired isInvalid={inputError}>
+            <FormControl isRequired>
               <FormLabel>Name</FormLabel>
-              <Input required type={"text"} {...register("name")} onChange={(e) => setInputName(e.target.value)}/>
+              <Input placeholder={contact.name} required type={"text"} {...register("name")} onChange={(e) => setInputName(e.target.value)}/>
               {!inputName ? (
                 <FormHelperText color={'red.300'}>
                   Digite seu nome
@@ -111,9 +105,9 @@ const ModalAddContact = ({clientId, getData}:any) => {
               ) 
               }
             </FormControl>
-            <FormControl isRequired isInvalid={inputError}>
+            <FormControl isRequired>
               <FormLabel>Phone</FormLabel>
-              <Input required type='text' {...register("phone")} onChange={(e) => setInputPhone(e.target.value)}/>
+              <Input placeholder={contact.phone} required type='text' {...register("phone")} onChange={(e) => setInputPhone(e.target.value)}/>
               {!inputPhone ? (
                 <FormHelperText color={'red.300'}>
                   Digite seu telefone
@@ -128,7 +122,7 @@ const ModalAddContact = ({clientId, getData}:any) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-          <Button size='lg' onClick={handleSubmit(onFormSubmit)}>Criar</Button>
+          <Button size='lg' onClick={handleSubmit(onFormSubmit)}>Update</Button>
           <Button size='lg' onClick={onClose}>Fechar</Button>
           </ModalFooter>
         </ModalContent>
@@ -137,4 +131,4 @@ const ModalAddContact = ({clientId, getData}:any) => {
   )
 }
 
-export default ModalAddContact
+export default ModalUpdateContact
