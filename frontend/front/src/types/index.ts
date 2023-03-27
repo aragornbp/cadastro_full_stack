@@ -30,6 +30,13 @@ export interface iClientRequest {
   phone: string;
 }
 
+export interface iClientUpdate {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+}
+
 export interface iLogin {
   email: string;
   password: string;
