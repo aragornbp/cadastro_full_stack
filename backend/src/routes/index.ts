@@ -5,6 +5,6 @@ import { loginRoutes } from "./login.routes";
 
 export const globalRoutes = Router();
 
-globalRoutes.use("/api/client", clientRoutes)
-globalRoutes.use("/api/login", loginRoutes)
-globalRoutes.use("/api/client/contact", contactRoutes)
+globalRoutes.use("/api/client", clientRoutes);
+globalRoutes.use("/api/login", loginRoutes);
+globalRoutes.use("/api/client/contact", contactRoutes);
