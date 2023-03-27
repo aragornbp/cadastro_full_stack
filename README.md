@@ -1,14 +1,21 @@
-<h1>API está temporariamente indisponível</h1>
-
 <h2 align="center" style='font-family: sans-serif'>
-	Client_API | API REST (Back-end)
+	Cadastro_full_stack | API REST (Back-end)
 </h2>
 
 <p align = "center">
-Este é o backend da aplicação Client_API para gerenciamento de clientes e contatos.
+Este é o backend da aplicação para gerenciamento de clientes e contatos.
 </p>
 
-<li>URL base da api: https://client-api.up.railway.app</li>
+<h2 align="center" style='font-family: sans-serif'>
+	Instalação:
+</h2>
+
+<p align = "center">
+cd backend
+yarn / npm install
+yarn migrate / npm run migrate
+yarn dev / npm run dev
+</p>
 
 
 <h2 align ='center'>Clientes (Endpoints)</h2>
@@ -19,9 +26,7 @@ Este é o backend da aplicação Client_API para gerenciamento de clientes e con
 
 <br/>
 
-Observação: O campo "phone" precisa ter 11 digitos
-
-`POST /clients - FORMATO DA REQUISIÇÃO - STATUS 201`
+`POST /api/client - FORMATO DA REQUISIÇÃO - STATUS 201`
 
 ```json
 {
@@ -34,7 +39,7 @@ Observação: O campo "phone" precisa ter 11 digitos
 
 Caso dê tudo certo, a resposta será assim:
 
-`POST /clients - FORMATO DA RESPOSTA - STATUS 201`
+`POST /api/client- FORMATO DA RESPOSTA - STATUS 201`
 
 ```json
 {
@@ -42,9 +47,7 @@ Caso dê tudo certo, a resposta será assim:
     "name": "matheus",
     "email": "matheus@gmail.com",
     "phone": "99934561234",
-    "registered_date": "2023-03-22T18:03:24.787Z",
-    "is_active": true,
-    "contacts": []
+    "created_at": "2023-03-22T18:03:24.787Z",
 }
 ```
 
@@ -54,7 +57,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`POST /clients/login - FORMATO DA REQUISIÇÃO - STATUS 201`
+`POST /api/login - FORMATO DA REQUISIÇÃO - STATUS 201`
 
 ```json
 {
@@ -65,7 +68,7 @@ Caso dê tudo certo, a resposta será assim:
 
 Caso dê tudo certo, a resposta será assim:
 
-`POST /clients/login - FORMATO DA RESPOSTA - STATUS 201`
+`POST /client/login - FORMATO DA RESPOSTA - STATUS 201`
 
 ```json
 {
@@ -87,13 +90,13 @@ Rotas que necessitam de autorização deve ser informado no cabeçalho da requis
 
 > Authorization: Bearer {token}
 
-Após o usuário estar logado, ele deve conseguir informar as tecnologias que ele aprendeu até agora.
+Após o usuário estar logado, ele deve conseguir adicionar os contatos.
 
 > Caso você tente acessar os endpoints sem um token válido receberá o seguinte erro
 
 <br/>
 
-`(Exemplo) POST /contacts/ - 401 Sem Autorização`
+`(Exemplo) POST /api/client/contacts/ - 401 Sem Autorização`
 
 ```json
 {
@@ -117,7 +120,7 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
 
 <br/>
 
-`GET /clients/:client_id - FORMATO DA RESPOSTA - STATUS 200`
+`GET /api/client/:client_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
@@ -125,8 +128,7 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
     "name": "matheus",
     "email": "matheus@gmail.com",
     "phone": "99934561234",
-    "registered_date": "2023-03-22T18:03:24.787Z",
-    "is_active": true,
+    "created_at": "2023-03-22T18:03:24.787Z",
     "contacts": []
 }
 ```
@@ -135,17 +137,17 @@ Após o usuário estar logado, ele deve conseguir informar as tecnologias que el
 
 <br/>
 
-`PATCH /clients/:client_id - FORMATO DA REQUISIÇÃO`
+`PATCH /api/client/:client_id - FORMATO DA REQUISIÇÃO`
 
 ```json
 {
-    "email": "matheusvincente@gmail.com"
+    "email": "matheusvincente@gmail.com",
 }
 ```
 
 Caso dê tudo certo, a resposta será assim:
 
-`PATCH /clients/:client_id - FORMATO DA RESPOSTA - STATUS 200`
+`PATCH /api/client/:client_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
@@ -153,8 +155,7 @@ Caso dê tudo certo, a resposta será assim:
     "name": "matheus",
     "email": "matheusvincente@gmail.com",
     "phone": "99934561234",
-    "registered_date": "2023-03-22T18:03:24.787Z",
-    "is_active": true,
+    "created_at": "2023-03-22T18:03:24.787Z",
     "contacts": []
 }
 ```
@@ -163,7 +164,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`DELETE /clients/:client_id - FORMATO DA RESPOSTA - STATUS 204`
+`DELETE /api/client/:client_id - FORMATO DA RESPOSTA - STATUS 204`
 
 ```json
 {}
@@ -187,12 +188,12 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`POST /contacts - FORMATO DA REQUISIÇÃO`
+`POST /api/client/contact - FORMATO DA REQUISIÇÃO`
 
 ```json
 {
     "name": "tio",
-    "email": "tio@gmail.com",
+    "email": "contato2@gmail.com",
     "password": "1234",
     "phone": 78123456789
 }
@@ -204,20 +205,12 @@ Caso dê tudo certo, a resposta será assim:
 
 ```json
 {
-    "id": "e020bc17-0d5d-4fff-b8dc-bc1b0482e9f3",
-    "name": "lucas",
-    "email": "lucas@gmail.com",
-    "phone": 91123456788,
-    "client": {
-        "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
-        "name": "neto",
-        "email": "neto@gmail.com",
-        "phone": "99123456789",
-        "registered_date": "2023-03-22T18:03:24.787Z",
-        "is_active": true
-    },
-    "registered_date": "2023-03-22T23:42:57.837Z",
-    "is_active": true
+    	"email": "contato2@gmail.com",
+	"name": "tio",
+	"phone": "78123456789",
+	"client": "bc040c36-3141-4ffb-b34e-3c0d7c7d8b89",
+	"id": "5a4c2d40-c7bf-4790-84ba-4fa2be78224c",
+	"created_at": "2023-03-27T12:41:19.317Z"
 }
 ```
 
@@ -225,32 +218,12 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`GET /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 200`
 
-```json
-{
-    "id": "fc0eba19-dce2-41e5-8643-ff3a03d481e5",
-    "name": "lucas",
-    "email": "lucas@gmail.com",
-    "phone": "91123456780",
-    "registered_date": "2023-03-22T18:06:43.895Z",
-    "is_active": true,
-    "client": {
-        "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
-        "name": "neto",
-        "email": "neto@gmail.com",
-        "phone": "99123456789",
-        "registered_date": "2023-03-22T18:03:24.787Z",
-        "is_active": true
-    }
-}
-```
-
-<li style='font-size: 20px'>Atualização de um cliente</li>
+<li style='font-size: 20px'>Atualização de um contato</li>
 
 <br/>
 
-`PATCH /contacts/:contact_id - FORMATO DA REQUISIÇÃO`
+`PATCH /api/client/contact/:contact_id - FORMATO DA REQUISIÇÃO`
 
 ```json
 {
@@ -261,23 +234,15 @@ Caso dê tudo certo, a resposta será assim:
 
 <li style='font-size: 20px'>Caso dê tudo certo, a resposta será assim:</li>
 
-`PATCH /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 200`
+`PATCH /api/client/contact/:contact_id - FORMATO DA RESPOSTA - STATUS 200`
 
 ```json
 {
-    "id": "fc0eba19-dce2-41e5-8643-ff3a03d481e5",
-    "name": "gandalf",
-    "email": "gandalf@gmail.com",
-    "phone": "91123456780",
-    "registered_date": "2023-03-22T18:06:43.895Z",
-    "is_active": true,
-    "client": {
-        "id": "87756338-817f-496d-b7e1-c568cfc5e82b",
-        "name": "neto",
-        "email": "neto@gmail.com",
-        "phone": "99123456789",
-        "registered_date": "2023-03-22T18:03:24.787Z",
-        "is_active": true
+	"id": "ae5ab33e-ffee-418c-bd92-02f79baeadbb",
+	"email": "gandalf@gmail.com",
+	"name": "gandalf",
+	"phone": "555",
+	"created_at": "2023-03-22T16:50:44.884Z"
     }
 }
 ```
@@ -286,7 +251,7 @@ Caso dê tudo certo, a resposta será assim:
 
 <br/>
 
-`DELETE /contacts/:contact_id - FORMATO DA RESPOSTA - STATUS 204`
+`DELETE /api/client/contact/:contact_id - FORMATO DA RESPOSTA - STATUS 204`
 
 ```json
 {}
