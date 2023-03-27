@@ -21,7 +21,7 @@ import {
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { iClient, iClientUpdate } from "@/types";
+import { iClient, iClientRequest, iClientUpdate } from "@/types";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import api from "@/services/api";
 
@@ -51,6 +51,7 @@ const ModalUpdateClient = ({ user, getData }: any) => {
   } = useForm<iClientUpdate>({ resolver: yupResolver(formSchema) });
 
   const onFormSubmit = async (FormData: iClientUpdate) => {
+    console.log(FormData);
     if (FormData.email == "") {
       FormData.email = user.email;
     }
@@ -63,8 +64,8 @@ const ModalUpdateClient = ({ user, getData }: any) => {
     if (FormData.password == "") {
       const data = {
         email: FormData.email,
-        name: FormData.name,
         phone: FormData.phone,
+        name: FormData.name,
       };
       updateUser(data);
     } else {
