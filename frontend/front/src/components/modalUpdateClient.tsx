@@ -17,29 +17,30 @@ import {
   ModalHeader,
   useToast,
   Box,
-  Flex,
-  Text,
 } from "@chakra-ui/react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { iClientRequest, iContactRequest } from "@/types";
-import { AddIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { iClient, iClientUpdate } from "@/types";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import api from "@/services/api";
 
-const ModalAddContact = ({ clientId, getData }: any) => {
+const ModalUpdateClient = ({ user, getData }: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
   const formSchema = yup.object().shape({
-    email: yup.string().email("Must be a valide e-mail.").required(),
-    name: yup.string().required(),
-    phone: yup.string().required(),
+    email: yup.string().email("Must be a valide e-mail."),
+    password: yup.string(),
+    name: yup.string(),
+    phone: yup.string(),
   });
 
   const [inputEmail, setInputEmail] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
   const [inputName, setInputName] = useState("");
   const [inputPhone, setInputPhone] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const inputError = inputEmail == "";
 
@@ -47,17 +48,34 @@ const ModalAddContact = ({ clientId, getData }: any) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<iContactRequest>({ resolver: yupResolver(formSchema) });
+  } = useForm<iClientUpdate>({ resolver: yupResolver(formSchema) });
 
-  const onFormSubmit = async (FormData: iContactRequest) => {
-    const newContact = { ...FormData, client: clientId };
-    registerContact(newContact);
+  const onFormSubmit = async (FormData: iClientUpdate) => {
+    if (FormData.email == "") {
+      FormData.email = user.email;
+    }
+    if (FormData.name == "") {
+      FormData.name = user.name;
+    }
+    if (FormData.phone == "") {
+      FormData.phone = user.phone;
+    }
+    if (FormData.password == "") {
+      const data = {
+        email: FormData.email,
+        name: FormData.name,
+        phone: FormData.phone,
+      };
+      updateUser(data);
+    } else {
+      updateUser(FormData);
+    }
   };
 
-  const registerContact = async (userData: iContactRequest) => {
+  const updateUser = async (userData: iClientUpdate) => {
     await api
-      .post("api/client/contact", userData)
-      .then((response) => {
+      .patch(`api/client/${user.id}`, userData)
+      .then(() => {
         toast({
           title: "sucess",
           variant: "solid",
@@ -71,7 +89,7 @@ const ModalAddContact = ({ clientId, getData }: any) => {
               fontWeight={"bold"}
               borderRadius={"md"}
             >
-              Contato cadastrado com sucesso.
+              Cadastro atualizado com sucesso.
             </Box>
           ),
         });
@@ -94,7 +112,7 @@ const ModalAddContact = ({ clientId, getData }: any) => {
               fontWeight={"bold"}
               borderRadius={"md"}
             >
-              Erro ao cadastrar novo contato.
+              Erro ao atualizar cadastro.
             </Box>
           ),
         });
@@ -104,28 +122,17 @@ const ModalAddContact = ({ clientId, getData }: any) => {
 
   return (
     <>
-      <Flex
-        p={4}
-        color="white"
-        borderRadius={"2xl"}
-        bg={"blue.500"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-        marginTop={"15"}
-        cursor={"pointer"}
-      >
-        <Text>Meus Contatos:</Text>
-        <Button bg={"blue.500"} onClick={onOpen}>
-          <AddIcon color="white" fontSize={"2xl"} />
-        </Button>
-      </Flex>
+      <Button variant={"default"} onClick={onOpen}>
+        Atualizar
+      </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalContent>
-          <ModalHeader>Adicionar contato</ModalHeader>
+          <ModalHeader>Atualize sua conta</ModalHeader>
           <ModalBody>
             <FormControl isRequired isInvalid={inputError}>
               <FormLabel>E-mail</FormLabel>
               <Input
+                placeholder={user?.email}
                 required
                 type="email"
                 {...register("email")}
@@ -140,10 +147,40 @@ const ModalAddContact = ({ clientId, getData }: any) => {
               )}
             </FormControl>
             <FormControl isRequired isInvalid={inputError}>
+              <FormLabel>Password</FormLabel>
+              <InputGroup>
+                <Input
+                  placeholder={user?.password}
+                  required
+                  type={showPassword ? "text" : "password"}
+                  {...register("password")}
+                  onChange={(e) => setInputPassword(e.target.value)}
+                />
+                <InputRightElement>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+              {!inputPassword ? (
+                <FormHelperText color={"red.300"}>
+                  Digite sua senha
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl isRequired isInvalid={inputError}>
               <FormLabel>Name</FormLabel>
               <Input
+                placeholder={user?.name}
                 required
-                type={"text"}
+                type="text"
                 {...register("name")}
                 onChange={(e) => setInputName(e.target.value)}
               />
@@ -158,6 +195,7 @@ const ModalAddContact = ({ clientId, getData }: any) => {
             <FormControl isRequired isInvalid={inputError}>
               <FormLabel>Phone</FormLabel>
               <Input
+                placeholder={user?.phone}
                 required
                 type="text"
                 {...register("phone")}
@@ -174,7 +212,7 @@ const ModalAddContact = ({ clientId, getData }: any) => {
           </ModalBody>
           <ModalFooter>
             <Button size="lg" onClick={handleSubmit(onFormSubmit)}>
-              Criar
+              Entrar
             </Button>
             <Button size="lg" onClick={onClose}>
               Fechar
@@ -186,4 +224,4 @@ const ModalAddContact = ({ clientId, getData }: any) => {
   );
 };
 
-export default ModalAddContact;
+export default ModalUpdateClient;

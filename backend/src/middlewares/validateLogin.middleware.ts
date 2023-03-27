@@ -8,12 +8,12 @@ export const loginMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const {email, password}: iLogin = req.body
+  const { email, password }: iLogin = req.body;
 
-  const client = await clientRepository.findOneBy({email: email})
+  const client = await clientRepository.findOneBy({ email: email });
 
-  if(!client){
-    return res.status(401).json({message: "Wrong email or password"})
+  if (!client) {
+    return res.status(401).json({ message: "Wrong email or password" });
   }
 
   const passwordCompare = await compare(password, client.password);
@@ -21,5 +21,5 @@ export const loginMiddleware = async (
   if (!passwordCompare)
     return res.status(401).json({ message: "Wrong email or password" });
 
-  return next()
-}
+  return next();
+};

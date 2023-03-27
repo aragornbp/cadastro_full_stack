@@ -1,12 +1,12 @@
-import 'dotenv/config'
-import 'reflect-metadata'
+import "dotenv/config";
+import "reflect-metadata";
 import { DataSource, DataSourceOptions } from "typeorm";
-import { Client } from './entities/client.entity';
-import { Contact } from './entities/contact.entity';
-import { InicialMigration1679332928937 } from './migrations/1679332928937-InicialMigration';
+import { Client } from "./entities/client.entity";
+import { Contact } from "./entities/contact.entity";
+import { InicialMigration1679332928937 } from "./migrations/1679332928937-InicialMigration";
+import { fixContact1679883283323 } from "./migrations/1679883283323-fixContact";
 
-
-const port = process.env.DB_PORT as number | undefined
+const port = process.env.DB_PORT as number | undefined;
 
 const setDataSourceOptions = (): DataSourceOptions => {
   const nodeEnv = process.env.NODE_ENV;
@@ -16,7 +16,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
       type: "postgres",
       url: process.env.DATABASE_URL,
       entities: [Client, Contact],
-      migrations: [InicialMigration1679332928937],
+      migrations: [fixContact1679883283323],
     };
   }
 
@@ -39,7 +39,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
     logging: true,
     synchronize: false,
     entities: [Client, Contact],
-    migrations: [InicialMigration1679332928937],
+    migrations: [fixContact1679883283323],
   };
 };
 

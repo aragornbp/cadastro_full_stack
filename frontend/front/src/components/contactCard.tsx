@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export const contactCard = () => {
-  return (
-    <div>contactCard</div>
-  )
-}
+  return <div>contactCard</div>;
+};

@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken'
-import { NextFunction, Request, Response } from 'express'
+import jwt from "jsonwebtoken";
+import { NextFunction, Request, Response } from "express";
 
 export const validateAuthTokenMiddleware = async (
   req: Request,
@@ -17,7 +17,7 @@ export const validateAuthTokenMiddleware = async (
     authToken!,
     process.env.SECRET_KEY!,
     (error, decoded: any) => {
-      if (error){
+      if (error) {
         res.status(401).json({ message: "Missing authorization headers" });
       }
 
@@ -28,4 +28,4 @@ export const validateAuthTokenMiddleware = async (
       return next();
     }
   );
-}
+};
