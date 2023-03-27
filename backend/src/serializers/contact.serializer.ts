@@ -10,14 +10,14 @@ export const responseContactSerializer: yup.Schema<iContactResponse> = yup
     email: yup.string().email(),
     phone: yup.string(),
     created_at: yup.date(),
-    client: yup.string()
+    client: yup.string(),
   });
 
 export const contactSerializerRequest: yup.Schema<iContactRequest> = yup
-.object()
-.shape({
-  name: yup.string().required(),
-  email: yup.string().email().required(),
-  phone: yup.string().required(),
-  client: yup.string().required(),
-});
+  .object()
+  .shape({
+    name: yup.string().required(),
+    email: yup.string().email().required(),
+    phone: yup.string().required(),
+    client: yup.string().required(),
+  });

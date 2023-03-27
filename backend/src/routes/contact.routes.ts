@@ -6,9 +6,21 @@ import { validateAuthTokenMiddleware } from "../middlewares/validateAuthToken.mi
 import { validateDataMiddleware } from "../middlewares/validateDataMiddleware.middleware";
 import { contactSerializerRequest } from "../serializers/contact.serializer";
 
-export const contactRoutes = Router()
+export const contactRoutes = Router();
 
-contactRoutes.post("", validateDataMiddleware(contactSerializerRequest), validateAuthTokenMiddleware, createContactController)
-contactRoutes.patch("/:id", validateAuthTokenMiddleware, UpdateContactController)
-contactRoutes.delete("/:id", validateAuthTokenMiddleware, deleteContactController)
-
+contactRoutes.post(
+  "",
+  validateDataMiddleware(contactSerializerRequest),
+  validateAuthTokenMiddleware,
+  createContactController
+);
+contactRoutes.patch(
+  "/:id",
+  validateAuthTokenMiddleware,
+  UpdateContactController
+);
+contactRoutes.delete(
+  "/:id",
+  validateAuthTokenMiddleware,
+  deleteContactController
+);

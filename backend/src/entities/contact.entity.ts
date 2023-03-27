@@ -1,25 +1,29 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import {Client} from "./client.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Client } from "./client.entity";
 
-@Entity('contact')
-export class Contact{
+@Entity("contact")
+export class Contact {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column({length:127, unique: true})
+  @Column({ length: 127 })
   email: string;
 
-  @Column({length: 127})
+  @Column({ length: 127 })
   name: string;
 
-  @Column({unique: true})
-  phone: string
+  @Column()
+  phone: string;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
-  @ManyToOne(()=> Client, {onDelete: "CASCADE"})
-  client: string
-
-  
+  @ManyToOne(() => Client, { onDelete: "CASCADE" })
+  client: string;
 }

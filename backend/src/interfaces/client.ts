@@ -1,4 +1,4 @@
-export interface iContactResponse{
+export interface iContactResponse {
   id?: string;
   email?: string;
   name?: string;
@@ -7,20 +7,20 @@ export interface iContactResponse{
   client?: string;
 }
 
-export interface iContactRequest{
+export interface iContactRequest {
   email: string;
   name: string;
   phone: string;
   client: string;
 }
 
-export interface iContactUpdate{
+export interface iContactUpdate {
   email?: string;
   name?: string;
   phone?: string;
 }
 
-export interface iContactUpdate{
+export interface iContactUpdate {
   email?: string;
   name?: string;
   phone?: string;
@@ -47,5 +47,3 @@ export interface iClientUpdate {
   password?: string;
   phone?: string;
 }
-
-

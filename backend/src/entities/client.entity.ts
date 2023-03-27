@@ -1,30 +1,37 @@
 import { getRounds, hashSync } from "bcryptjs";
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import {Contact} from "./contact.entity";
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Contact } from "./contact.entity";
 
-
-@Entity('client')
-export class Client{
+@Entity("client")
+export class Client {
   @PrimaryGeneratedColumn("uuid")
-  id: String
+  id: String;
 
-  @Column({length:127, unique: true})
+  @Column({ length: 127, unique: true })
   email: string;
 
-  @Column({length: 127})
+  @Column({ length: 127 })
   name: string;
 
-  @Column({unique: true})
-  phone: string
+  @Column({ unique: true })
+  phone: string;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
-  @Column({length: 127})
-  password: string
+  @Column({ length: 127 })
+  password: string;
 
-  @OneToMany(()=> Contact, (contact)=> contact.client)
-  contacts : Contact[]
+  @OneToMany(() => Contact, (contact) => contact.client)
+  contacts: Contact[];
 
   @BeforeInsert()
   @BeforeUpdate()

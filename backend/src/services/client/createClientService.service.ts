@@ -5,19 +5,19 @@ import { responseClientSerializer } from "../../serializers/client.serializer";
 
 export const createClientService = async (
   data: iClientRequest
-): Promise<iClient> =>{
-  const {...rest} = data
-  const findClient = await clientRepository.findOneBy({email: data.email})
-  
-  if (findClient) throw new AppError(409, "Client already exists")
+): Promise<iClient> => {
+  const { ...rest } = data;
+  const findClient = await clientRepository.findOneBy({ email: data.email });
 
-  const newClient = clientRepository.create({...rest})
+  if (findClient) throw new AppError(409, "Client already exists");
 
-  await clientRepository.save(newClient)
+  const newClient = clientRepository.create({ ...rest });
+
+  await clientRepository.save(newClient);
 
   const returnNewClient = await responseClientSerializer.validate(newClient, {
     stripUnknown: true,
-  })
+  });
 
-  return returnNewClient
-}
+  return returnNewClient;
+};
