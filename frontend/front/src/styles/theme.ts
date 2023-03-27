@@ -74,6 +74,7 @@ const custonTheme = extendTheme({
     Button: {
       variants: {
         default: {
+          width: "6rem",
           bg: "blue.600",
           border: "2px solid",
           borderColor: "blue.600",
