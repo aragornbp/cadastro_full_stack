@@ -56,7 +56,6 @@ const ModalUpdateContact = ({ getData, contact }: any) => {
     if (FormData.phone == "") {
       FormData.phone = contact.phone;
     }
-    console.log(FormData);
     updateContact(FormData);
   };
 
