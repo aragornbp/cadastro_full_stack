@@ -1,9 +1,9 @@
+import "express-async-errors";
 import "dotenv/config";
 import "reflect-metadata";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { Client } from "./entities/client.entity";
 import { Contact } from "./entities/contact.entity";
-import { InicialMigration1679332928937 } from "./migrations/1679332928937-InicialMigration";
 import { fixContact1679883283323 } from "./migrations/1679883283323-fixContact";
 
 const port = process.env.DB_PORT as number | undefined;

@@ -9,7 +9,7 @@ class AppError extends Error {
   }
 }
 
-const errorHandler = (
+const errorHandler = async (
   err: Error,
   req: Request,
   res: Response,
@@ -18,6 +18,7 @@ const errorHandler = (
   if (err instanceof AppError) {
     return res.status(err.statusCode).json({ message: err.message });
   }
+
   if (err.message.includes("invalid input syntax")) {
     return res.status(404).json({ message: "Invalid syntax" });
   }
@@ -25,6 +26,7 @@ const errorHandler = (
   if (err.message.includes("must be a valid UUID")) {
     return res.status(400).json({ message: "Invalid UUID" });
   }
+
   console.log(err.message);
 
   return res.status(500).json({ message: "Internal server error" });

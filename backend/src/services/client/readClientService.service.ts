@@ -1,3 +1,4 @@
+import "express-async-errors";
 import { AppError } from "../../errors/errors";
 import { iClient } from "../../interfaces/client";
 import { clientRepository } from "../../repositories/clientRepository";
