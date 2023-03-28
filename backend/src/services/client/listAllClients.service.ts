@@ -1,4 +1,4 @@
-import { iClient } from "../../interfaces/client";
+import "express-async-errors";
 import { clientRepository } from "../../repositories/clientRepository";
 import { responseListClientsSerializer } from "../../serializers/client.serializer";
 
