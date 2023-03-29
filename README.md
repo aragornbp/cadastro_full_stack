@@ -11,11 +11,18 @@ Este é o backend da aplicação para gerenciamento de clientes e contatos.
 </h2>
 
 <p align = "center">
-cd backend
-yarn / npm install
-yarn migrate / npm run migrate
-yarn dev / npm run dev
-</p>
+<h2>backend</h2>
+<p>cd backend</p>
+<p>yarn / npm install</p>
+<p>yarn migrate / npm run migrate</p>
+<p>yarn dev / npm run dev</p>
+
+<h2>frontend</h2>
+<p>cd frontend</p>
+<p>cd front</p>
+<p>yarn / npm install</p>
+<p>yarn dev / npm run dev</p>
+
 
 
 <h2 align ='center'>Clientes (Endpoints)</h2>
