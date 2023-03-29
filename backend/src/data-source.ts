@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { Client } from "./entities/client.entity";
 import { Contact } from "./entities/contact.entity";
-import { fixContact1679883283323 } from "./migrations/1679883283323-fixContact";
+import { InitialMigration1680108553673 } from "./migrations/1680108553673-InitialMigration";
 
 const port = process.env.DB_PORT as number | undefined;
 
@@ -16,7 +16,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
       type: "postgres",
       url: process.env.DATABASE_URL,
       entities: [Client, Contact],
-      migrations: [fixContact1679883283323],
+      migrations: [InitialMigration1680108553673],
     };
   }
 
@@ -39,7 +39,7 @@ const setDataSourceOptions = (): DataSourceOptions => {
     logging: true,
     synchronize: false,
     entities: [Client, Contact],
-    migrations: [fixContact1679883283323],
+    migrations: [InitialMigration1680108553673],
   };
 };
 
